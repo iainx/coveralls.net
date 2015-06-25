@@ -60,15 +60,25 @@ namespace csmacnz.Coveralls
             else if (args.IsProvided("--mprof") && args.OptMprof)
             {
                 var fileName = args.OptInput;
-                if (!File.Exists(fileName))
+                files = null;
+
+                if (File.Exists(fileName)) 
+                {
+                    var document = XDocument.Load (fileName);
+
+                    files = new MonoProfParser (new FileSystem (), pathProcessor).GenerateSourceFiles (document, args.OptUserelativepaths);
+                }
+                else if (Directory.Exists(fileName))
+                {
+                    Dictionary<string,XDocument> documents = new DirectoryInfo(fileName).GetFiles().Where(f => f.Name.EndsWith(".xml")).ToDictionary(f=>f.Name, f=>XDocument.Load(f.FullName));
+
+					files = new MonoProfParser(new FileSystem(), pathProcessor).GenerateSourceFiles(documents, args.OptUserelativepaths);
+                }
+                else
                 {
                     Console.Error.WriteLine("Input file '" + fileName + "' cannot be found");
                     Environment.Exit(1);
                 }
-
-                var document = XDocument.Load(fileName);
-
-				files = new MonoProfParser(new FileSystem(), pathProcessor).GenerateSourceFiles(document, args.OptUserelativepaths);
             }
             else
             {

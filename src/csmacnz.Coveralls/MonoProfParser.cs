@@ -63,6 +63,17 @@ namespace csmacnz.Coveralls
 
 			return sourceFiles;
 		}
+
+        public List<CoverageFile> GenerateSourceFiles(Dictionary<string, XDocument> documents, bool useRelativePaths)
+        {
+            List<CoverageFile> finalList = new List<CoverageFile> ();
+            foreach (var document in documents.Values) {
+                List<CoverageFile> files = GenerateSourceFiles (document, useRelativePaths);
+                finalList.AddRange (files);
+            }
+
+            return finalList;
+        }
 	}
 }
 
