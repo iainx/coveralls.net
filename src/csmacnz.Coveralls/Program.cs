@@ -57,6 +57,19 @@ namespace csmacnz.Coveralls
 
                 files = new DynamicCodeCoverageParser(new FileSystem(), pathProcessor).GenerateSourceFiles(document, args.OptUserelativepaths);
             }
+            else if (args.IsProvided("--mprof") && args.OptMprof)
+            {
+                var fileName = args.OptInput;
+                if (!File.Exists(fileName))
+                {
+                    Console.Error.WriteLine("Input file '" + fileName + "' cannot be found");
+                    Environment.Exit(1);
+                }
+
+                var document = XDocument.Load(fileName);
+
+				files = new MonoProfParser(new FileSystem(), pathProcessor).GenerateSourceFiles(document, args.OptUserelativepaths);
+            }
             else
             {
                 var fileName = args.OptInput;

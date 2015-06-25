@@ -9,7 +9,7 @@ namespace csmacnz.Coveralls
         public const string Usage = @"csmac.Coveralls - a coveralls.io coverage publisher for .Net
 
 Usage:
-  csmacnz.Coveralls (--opencover | --dynamiccodecoverage | --monocov) -i ./opencovertests.xml --repoToken <repoToken> [-o ./opencovertests.json] [--dryrun] [--useRelativePaths [--basePath <path>] ] [--commitId <commitId> --commitBranch <commitBranch> [--commitAuthor <commitAuthor> --commitEmail <commitEmail> --commitMessage <commitMessage>] ] [--jobId <jobId>] [--serviceName <Name>]
+  csmacnz.Coveralls (--opencover | --dynamiccodecoverage | --monocov | --mprof) -i ./opencovertests.xml --repoToken <repoToken> [-o ./opencovertests.json] [--dryrun] [--useRelativePaths [--basePath <path>] ] [--commitId <commitId> --commitBranch <commitBranch> [--commitAuthor <commitAuthor> --commitEmail <commitEmail> --commitMessage <commitMessage>] ] [--jobId <jobId>] [--serviceName <Name>]
   csmacnz.Coveralls --version
   csmacnz.Coveralls --help
 
@@ -24,6 +24,7 @@ Options:
  --opencover                     Reads input as OpenCover data.
  --dynamiccodecoverage           Reads input as the CodeCoverage.exe xml format.
  --monocov                       Reads input as monocov results folder.
+ --mprof                         Reads input as mprof-report xml format.
  --repoToken <repoToken>         The coveralls.io repository token.
  --commitId <commitId>           The git commit hash for the coverage report.
  --commitAuthor <commitAuthor>   The git commit author for the coverage report.
@@ -62,6 +63,7 @@ What its for:
 		public bool OptOpencover { get { return _args["--opencover"].IsTrue; } }
 		public bool OptDynamiccodecoverage { get { return _args["--dynamiccodecoverage"].IsTrue; } }
 		public bool OptMonocov { get { return _args["--monocov"].IsTrue; } }
+		public bool OptMprof { get { return _args ["--mprof"].IsTrue; } }
 		public string OptInput { get { return _args["--input"].ToString(); } }
 		public string OptRepotoken { get { return _args["--repoToken"].ToString(); } }
 		public string OptOutput { get { return _args["--output"].ToString(); } }
